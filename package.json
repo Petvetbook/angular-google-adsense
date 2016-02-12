@@ -2,7 +2,7 @@
   "name": "morrr-angular-google-adsense",
   "version": "0.4.0",
   "description": "Integrate your google adsense advertisements in your AngularJS applications easily.",
-  "homepage": "https://github.com/Petvetbook/angular-google-adsense",
+  "homepage": "https://github.com/Petvetbook/morrr-angular-google-adsense",
   "main": "dist/angular-google-adsense.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Stegoo/angular-google-adsense.git"
+    "url": "https://github.com/Petvetbook/morrr-angular-google-adsense.git"
   },
   "licenses": [
     {
