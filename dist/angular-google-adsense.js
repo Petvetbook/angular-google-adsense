@@ -20,18 +20,31 @@
                 minWidth: '@',
                 maxWidth: '@'
             },
-            template: '<div class="ads" ng-if="visible"><ins class="adsbygoogle" data-ad-client="{{adClient}}" data-ad-slot="{{adSlot}}" style="{{inlineStyle}}"></ins></div>',
+            template: '<div class="ads"><ins ng-if="visible" class="adsbygoogle" data-ad-client="{{adClient}}" data-ad-slot="{{adSlot}}" style="{{inlineStyle}}"></ins></div>',
             controller: ['Adsense', '$timeout', '$scope', '$window', function (Adsense, $timeout, $scope, $window) {
+                $scope.visible = false;
                 $scope.getWindowWidth = function() {
                     return angular.element($window).width();
                 };
 
                 $scope.$watch($scope.getWindowWidth, function(newValue, oldValue) {
-                    $scope.visible = false;
                     $scope.maxWidth = $scope.maxWidth? $scope.maxWidth: newValue;
                     $scope.minWidth = $scope.minWidth? $scope.minWidth: 0;
+                    console.log(newValue);
                     if ($scope.maxWidth >= newValue && $scope.minWidth <= newValue) {
-                        $scope.visible = true;
+                        if (!$scope.visible) {
+                            $scope.visible = true;
+
+                            /**
+                             * We need to wrap the call the AdSense in a $apply to update the bindings.
+                             * Otherwise, we get a 400 error because AdSense gets literal strings from the directive
+                             */
+                            $timeout(function(){
+                                (window.adsbygoogle = window.adsbygoogle || []).push({});
+                            });
+                        }
+                    } else {
+                        $scope.visible = false;
                     }
                 });
 
@@ -44,13 +57,6 @@
 
                     Adsense.isAlreadyLoaded = true;
                 }
-                /**
-                 * We need to wrap the call the AdSense in a $apply to update the bindings.
-                 * Otherwise, we get a 400 error because AdSense gets literal strings from the directive
-                 */
-                $timeout(function(){
-                    (window.adsbygoogle = window.adsbygoogle || []).push({});
-                });
             }]
         };
     });
