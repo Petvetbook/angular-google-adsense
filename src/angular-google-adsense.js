@@ -30,7 +30,6 @@
                 $scope.$watch($scope.getWindowWidth, function(newValue, oldValue) {
                     $scope.maxWidth = $scope.maxWidth? $scope.maxWidth: newValue;
                     $scope.minWidth = $scope.minWidth? $scope.minWidth: 0;
-                    console.log(newValue);
                     if ($scope.maxWidth >= newValue && $scope.minWidth <= newValue) {
                         if (!$scope.visible) {
                             $scope.visible = true;
