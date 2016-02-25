@@ -49,7 +49,7 @@
                  * Otherwise, we get a 400 error because AdSense gets literal strings from the directive
                  */
                 $timeout(function(){
-                     (window.adsbygoogle = window.adsbygoogle || []).push({});
+                    (window.adsbygoogle = window.adsbygoogle || []).push({});
                 });
             }]
         };

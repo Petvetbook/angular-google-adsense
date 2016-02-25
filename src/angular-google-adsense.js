@@ -2,7 +2,7 @@
 
     'use strict';
 
-    angular.module('angular-google-adsense', []).
+    angular.module('morrr-angular-google-adsense', []).
 
     service('Adsense', [function(){
         this.url = '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
@@ -16,10 +16,25 @@
             scope : {
                 adClient : '@',
                 adSlot : '@',
-                inlineStyle : '@'
+                inlineStyle : '@',
+                minWidth: '@',
+                maxWidth: '@'
             },
-            template: '<div class="ads"><ins class="adsbygoogle" data-ad-client="{{adClient}}" data-ad-slot="{{adSlot}}" style="{{inlineStyle}}"></ins></div>',
-            controller: ['Adsense', '$timeout', function (Adsense, $timeout) {
+            template: '<div class="ads" ng-if="visible"><ins class="adsbygoogle" data-ad-client="{{adClient}}" data-ad-slot="{{adSlot}}" style="{{inlineStyle}}"></ins></div>',
+            controller: ['Adsense', '$timeout', '$scope', '$window', function (Adsense, $timeout, $scope, $window) {
+                $scope.getWindowWidth = function() {
+                    return angular.element($window).width();
+                };
+
+                $scope.$watch($scope.getWindowWidth, function(newValue, oldValue) {
+                    $scope.visible = false;
+                    $scope.maxWidth = $scope.maxWidth? $scope.maxWidth: newValue;
+                    $scope.minWidth = $scope.minWidth? $scope.minWidth: 0;
+                    if ($scope.maxWidth >= newValue && $scope.minWidth <= newValue) {
+                        $scope.visible = true;
+                    }
+                });
+
                 if (!Adsense.isAlreadyLoaded) {
                     var s = document.createElement('script');
                     s.type = 'text/javascript';
@@ -34,7 +49,7 @@
                  * Otherwise, we get a 400 error because AdSense gets literal strings from the directive
                  */
                 $timeout(function(){
-                     (window.adsbygoogle = window.adsbygoogle || []).push({});
+                    (window.adsbygoogle = window.adsbygoogle || []).push({});
                 });
             }]
         };

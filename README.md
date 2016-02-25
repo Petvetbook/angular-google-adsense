@@ -5,7 +5,7 @@ This module lets you integrate your google adsense advertisements in your Angula
 
 ## Installation
 
-`bower install morrr-angular-google-adsense` or `npm install morrr-angular-google-adsense`
+`bower install morrr-angular-google-adsense`
 
 Or alternatively, grab the dist/angular-google-adsense.min.js and include it in your project
 
